@@ -79,6 +79,14 @@ body {
   font-size: 25px;
   user-select: none;
 }
+.footer-right{
+  position: absolute;
+  right: 50%;
+  bottom: 10%;
+  font-size: 1.5em;
+  text-decoration: none;
+  transform: translate(50%, -50%);
+}
 
 @media (max-width:480px) {
   .expression-display{
