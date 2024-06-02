@@ -82,7 +82,7 @@ body {
 .footer-right{
   position: absolute;
   right: 50%;
-  bottom: 10%;
+  bottom: 2%;
   font-size: 1.5em;
   text-decoration: none;
   transform: translate(50%, -50%);
