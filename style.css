@@ -80,12 +80,12 @@ body {
   user-select: none;
 }
 .footer-right{
-  position: absolute;
-  right: 50%;
-  bottom: 2%;
+  width: 100%;
+  display: block;
   font-size: 1.5em;
   text-decoration: none;
-  transform: translate(50%, -50%);
+  text-align: center;
+  color: black;
 }
 
 @media (max-width:480px) {
