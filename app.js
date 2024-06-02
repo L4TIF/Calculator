@@ -4,6 +4,10 @@ let oprtrkey = document.querySelectorAll(".oprtrkey");
 let display = document.querySelector(".expression-display");
 let sign = document.querySelector(".sign");
 let equal = document.querySelector(".equal");
+let decimal = document.querySelector(".decimal");
+let Clear = document.querySelector(".Clear");
+let Back = document.querySelector(".Back");
+
 let displayArr = [];
 let maxDigit = 9;
 let num1 = 0;
@@ -19,7 +23,7 @@ oprtrkey.forEach((oprtr) => {
         operate();
         clearArray();
         sign.textContent = optr.target.textContent;
-        toggle(numkey, false)
+        toggle(numkey, false);
     })
 })
 
@@ -52,14 +56,15 @@ function operate() {
 
 
 function clearArray() {
-    displayArr.splice(0, displayArr.length)
-
+    displayArr.splice(0, displayArr.length);
+    toggle(decimal, false);
     maxDigit = 9;
 }
 
 function displayData(elem) {
-    if (!isNaN(elem.target.textContent)) {
+    if (!isNaN(elem.target.textContent) || ".") {
         displayArr.push(elem.target.textContent);
+        if (displayArr.includes(".")) toggle(decimal, true);
         display.textContent = displayArr.join("");
         maxDigit--;
     }
@@ -67,13 +72,12 @@ function displayData(elem) {
 }
 
 function getData() {
-    console.log(displayArr)
     if (num1) {
         operator = sign.textContent;
-        num2 = parseInt(displayArr.join(""));
+        num2 = parseFloat(displayArr.join(""));
     }
     else
-        num1 = parseInt(displayArr.join(""));
+        num1 = parseFloat(displayArr.join(""));
 }
 
 
@@ -89,5 +93,5 @@ function multiply() { return num1 * num2 }
 
 
 function toggle(name, bool) {
-    bool ? name.forEach(e => e.disabled = true) : name.forEach(e => e.disabled = false);
+    name > 1 ? (bool ? name.forEach(e => e.disabled = true) : name.forEach(e => e.disabled = false)) : (bool ? name.disabled = true : name.disabled = false);
 }
