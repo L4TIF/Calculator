@@ -5,16 +5,15 @@ let display = document.querySelector(".expression-display");
 let sign = document.querySelector(".sign");
 let equal = document.querySelector(".equal");
 let decimal = document.querySelector(".decimal");
-let Clear = document.querySelector(".Clear");
+let clear = document.querySelector(".Clear");
 let Back = document.querySelector(".Back");
-
+let displayScreen = document.querySelector(".display");
 let displayArr = [];
 let maxDigit = 9;
-let num1 = 0;
-let num2 = 0;
+let num1 = null;
+let num2 = null;
 let operator;
 let result;
-let tempN2;
 // get nums , limit max digit and display 
 numkey.forEach((keys) => keys.addEventListener("click", displayData))
 
@@ -30,12 +29,27 @@ oprtrkey.forEach((oprtr) => {
 equal.addEventListener("click", () => {
     operate();
     clearArray();
+    sign.textContent = "";
+})
+clear.addEventListener("click", () => {
+    console.log(num1, num2, operator, result)
+    clearArray();
+    display.textContent = "000000000";
+    num1 = null;
+    num2 = null;
+    operator = "";
+})
+Back.addEventListener("click", () => {
+    if (displayArr.length > 0) {
+        displayArr.pop();
+        display.textContent = displayArr.join("");
+    }
 })
 
 function operate() {
     getData();
     console.log(num1, num2)
-    if (num1 && operator && !isNaN(num2)) {
+    if (!isNaN(num1) && operator && !isNaN(num2)) {
         switch (operator) {
             case "+": result = add();
                 break;
@@ -46,13 +60,11 @@ function operate() {
             case "*": result = multiply();
                 break;
         }
-        console.log(result)
-        num1 = result;
-        tempN2 = num2;
-        display.textContent = result;
+
+        Number.isInteger(result) ? display.textContent = result : (display.textContent = result.toPrecision());
+        if (!isNaN(result)) num1 = result;
     }
 }
-
 
 
 function clearArray() {
@@ -64,11 +76,13 @@ function clearArray() {
 function displayData(elem) {
     if (!isNaN(elem.target.textContent) || ".") {
         displayArr.push(elem.target.textContent);
+        maxDigit--;
+        if (maxDigit === 0) toggle(numkey, true);
         if (displayArr.includes(".")) toggle(decimal, true);
         display.textContent = displayArr.join("");
-        maxDigit--;
+
     }
-    if (maxDigit === 0) toggle(numkey, true);
+
 }
 
 function getData() {
@@ -84,14 +98,11 @@ function getData() {
 
 function add() { return num1 + num2 }
 function subtract() { return num1 - num2 }
-function divide() {
-    if (num2 === 0) return "Error";
-    return num1 / num2;
-}
+function divide() { return num1 / num2 }
 function multiply() { return num1 * num2 }
 
 
 
 function toggle(name, bool) {
-    name > 1 ? (bool ? name.forEach(e => e.disabled = true) : name.forEach(e => e.disabled = false)) : (bool ? name.disabled = true : name.disabled = false);
+    name.length > 1 ? (bool ? name.forEach(e => e.disabled = true) : name.forEach(e => e.disabled = false)) : (bool ? name.disabled = true : name.disabled = false);
 }
